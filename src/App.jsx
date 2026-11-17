@@ -1,9 +1,9 @@
-import { useStore, usePrivateJournal } from './store.js'
-import Journal from './screens/Journal.jsx'
-import Permissions from './screens/Permissions.jsx'
-import Settings from './screens/Settings.jsx'
-import Kareem from './screens/Kareem.jsx'
-import Nadia from './screens/Nadia.jsx'
+import { useStore, usePrivateJournal } from './src/store.js'
+import Journal from '../Journal.jsx'
+import Permissions from '../Permissions.jsx'
+import Settings from './src/screens/Settings.jsx'
+import Kareem from './src/screens/Kareem.jsx'
+import Nadia from './src/screens/Nadia.jsx'
 
 const ROLES = [
   { id: 'journal', label: 'Sara', isSara: true },
