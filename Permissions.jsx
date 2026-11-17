@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Screen, Header, PrimaryBtn, OutlineBtn, TextLink, HelpChip, CheckIcon } from '../ui.jsx'
+import { Screen, Header, PrimaryBtn, OutlineBtn, TextLink, HelpChip, CheckIcon } from './src/ui.jsx'
+import { KAREEM_HELP, NADIA_HELP, kMessage, nMessage } from './src/copy.js'
 import { KAREEM_HELP, NADIA_HELP, kMessage, nMessage } from '../copy.js'
 
 function Recipient({ name, on, toggle, options, help, setHelp, msg, saveMsg }) {
