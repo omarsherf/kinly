@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { Screen, MoodChip, PrimaryBtn, OutlineBtn, LockIcon, MicIcon, GearIcon } from '../ui.jsx'
-
+import { Screen, MoodChip, PrimaryBtn, OutlineBtn, LockIcon, MicIcon, GearIcon } from './src/ui.jsx'
 const MOODS = ['Exhausted', 'Overwhelmed', 'Anxious', 'Need a pause', 'Something else']
 
 export default function Journal({ s, patch, go, journal, setJournal }) {
