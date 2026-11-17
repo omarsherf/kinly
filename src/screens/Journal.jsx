@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Screen, MoodChip, PrimaryBtn, OutlineBtn, LockIcon, MicIcon, GearIcon } from '../ui.jsx'
 
 const MOODS = ['Exhausted', 'Overwhelmed', 'Anxious', 'Need a pause', 'Something else']
@@ -6,11 +6,64 @@ const MOODS = ['Exhausted', 'Overwhelmed', 'Anxious', 'Need a pause', 'Something
 export default function Journal({ s, patch, go, journal, setJournal }) {
   const [saved, setSaved] = useState(false)
   const [mic, setMic] = useState(false)
+  const recognitionRef = useRef(null)
+  const baseTextRef = useRef('')
+
   useEffect(() => {
     if (!saved) return
     const t = setTimeout(() => setSaved(false), 2500)
     return () => clearTimeout(t)
   }, [saved])
+
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) recognitionRef.current.stop()
+    }
+  }, [])
+
+  const toggleMic = () => {
+    if (mic) {
+      if (recognitionRef.current) recognitionRef.current.stop()
+      setMic(false)
+      return
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SpeechRecognition) {
+      setMic(true)
+      setTimeout(() => {
+        setJournal((prev) =>
+          prev
+            ? `${prev} I feel really drained today and just need a quiet hour to rest.`
+            : 'I feel really drained today and just need a quiet hour to rest.'
+        )
+        setMic(false)
+      }, 1500)
+      return
+    }
+
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'ar-EG'
+    recognition.interimResults = true
+    recognition.continuous = true
+
+    baseTextRef.current = journal ? journal.trim() + ' ' : ''
+
+    recognition.onresult = (event) => {
+      let transcript = ''
+      for (let i = 0; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript
+      }
+      setJournal(baseTextRef.current + transcript)
+    }
+
+    recognition.onerror = () => setMic(false)
+    recognition.onend = () => setMic(false)
+
+    recognitionRef.current = recognition
+    setMic(true)
+    recognition.start()
+  }
 
   return (
     <Screen>
@@ -35,12 +88,19 @@ export default function Journal({ s, patch, go, journal, setJournal }) {
           <label htmlFor="journal" className="text-[16px] font-semibold leading-6 text-ink">What's on your mind?</label>
           <div className="relative h-[210px] rounded-[14px] border border-line bg-white">
             <textarea id="journal" value={journal} onChange={(e) => setJournal(e.target.value)}
-              placeholder="Start anywhere. You don't have to explain it perfectly."
+              placeholder={mic ? 'Listening... speak freely' : "Start anywhere. You don't have to explain it perfectly."}
               className="h-full w-full resize-none rounded-[14px] bg-transparent p-5 pb-14 text-[14px] leading-[23px] text-ink placeholder:text-body" />
-            <button type="button" aria-label="Record a private voice note" aria-pressed={mic} onClick={() => setMic(!mic)}
-              className={`absolute bottom-[11px] right-[11px] grid size-9 place-items-center rounded-full bg-tint text-brand ${mic ? 'ring-[1.5px] ring-brand' : ''}`}>
-              <span className="size-5"><MicIcon /></span>
-            </button>
+            <div className="absolute bottom-[11px] right-[11px] flex items-center justify-center">
+              {mic && (
+                <span className="pointer-events-none absolute inline-flex size-11 animate-ping rounded-full bg-brand opacity-30" />
+              )}
+              <button type="button" aria-label="Record a private voice note" aria-pressed={mic} onClick={toggleMic}
+                className={`relative grid size-9 place-items-center rounded-full transition-all duration-300 ${
+                  mic ? 'bg-brand text-white shadow-sm' : 'bg-tint text-brand hover:opacity-90'
+                }`}>
+                <span className="size-5"><MicIcon /></span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
