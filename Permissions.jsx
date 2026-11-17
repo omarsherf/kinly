@@ -66,7 +66,6 @@ export default function Permissions({ s, patch, go }) {
         <div role="status" className="flex flex-col gap-3 rounded-[16px] bg-tint p-6">
           {replyLine(s).map((l) => <p key={l} className="text-[16px] leading-[26px] text-ink">{l}</p>)}
         </div>
-        <p className="text-[13px] font-medium leading-5 text-body">Use the bar at the top to open what they received.</p>
         <div className="flex-1" />
         <div className="flex flex-col gap-3">
           {s.kOn && <OutlineBtn onClick={() => go('kareem')}>View as Kareem</OutlineBtn>}
