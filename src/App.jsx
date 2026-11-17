@@ -26,8 +26,8 @@ export default function App() {
   }[s.screen] ?? <Journal {...props} journal={journal} setJournal={setJournal} />
 
   return (
-    <div className="flex h-full flex-col">
-      <nav aria-label="Prototype screens" className="flex shrink-0 items-center gap-4 overflow-x-auto border-b border-line bg-white px-3 py-2">
+    <div className="flex min-h-screen flex-col bg-[#efecf0]">
+      <nav aria-label="Prototype screens" className="sticky top-0 z-10 flex shrink-0 items-center gap-4 overflow-x-auto border-b border-line bg-white px-3 py-2">
         {GROUPS.map((g) => (
           <div key={g.label} role="group" aria-label={g.label} className="flex shrink-0 items-center gap-1">
             <span className="px-1 text-[11px] font-semibold text-faint">{g.label}</span>
@@ -39,8 +39,8 @@ export default function App() {
         ))}
         <button type="button" onClick={reset} className="ml-auto h-8 shrink-0 rounded-full px-3 text-[12px] font-semibold text-brand underline">Reset demo</button>
       </nav>
-      <div className="flex min-h-0 flex-1 items-start justify-center md:p-6">
-        <div key={s.screen} className="h-full w-full max-w-[390px] overflow-y-auto bg-page md:h-[844px] md:max-h-full md:rounded-[32px] md:border md:border-line md:shadow-sm">
+      <div className="flex flex-1 items-start justify-center md:py-8">
+        <div key={s.screen} className="min-h-[calc(100vh-49px)] w-full max-w-[390px] overflow-hidden bg-page md:min-h-[844px] md:rounded-[32px] md:border md:border-line md:shadow-sm">
           {view}
         </div>
       </div>
