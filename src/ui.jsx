@@ -9,18 +9,20 @@ export function Header({ title, sub, onBack, size = 'text-[26px]', gap = 'gap-[1
     <header className="flex flex-col gap-[10px]">
       <div className={cx('flex min-h-[34px] items-center', gap)}>
         {onBack && (
-          <button type="button" onClick={onBack} aria-label="Back" className="text-[24px] font-normal leading-8 text-brand">←</button>
+          <button type="button" onClick={onBack} aria-label="Back" className="-ml-2.5 flex size-11 shrink-0 items-center justify-center rounded-full text-brand transition hover:bg-tint/60 active:bg-tint">
+            <span className="size-6"><ChevronLeftIcon /></span>
+          </button>
         )}
         <h1 className={cx('flex-1 font-bold leading-[34px] text-ink', size)}>{title}</h1>
       </div>
-      {sub && <p className={cx(onBack && 'pl-[28px]', subClass)}>{sub}</p>}
+      {sub && <p className={cx(onBack && 'pl-[34px]', subClass)}>{sub}</p>}
     </header>
   )
 }
 
 export const PrimaryBtn = ({ children, large, className = '', ...p }) => (
   <button type="button" {...p}
-    className={cx('w-full rounded-[14px] bg-brand text-white font-semibold transition active:brightness-90 hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50',
+    className={cx('w-full rounded-[14px] bg-brand tracking-[0.02em] text-white font-semibold transition active:brightness-90 hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50',
       large ? 'h-[52px] text-[16px] leading-6' : 'h-[50px] text-[15px] leading-[22px]', className)}>{children}</button>
 )
 
@@ -68,6 +70,9 @@ export function Confirmation({ title, body, onUndo, undoLabel = 'Change my answe
 
 const svg = { width: '100%', height: '100%', fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }
 
+export const ChevronLeftIcon = () => (
+  <svg viewBox="0 0 24 24" strokeWidth="2" {...svg}><path d="M15 18l-6-6 6-6" /></svg>
+)
 export const LockIcon = () => (
   <svg viewBox="0 0 24 24" strokeWidth="2" {...svg}><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
 )
